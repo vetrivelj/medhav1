@@ -13,12 +13,50 @@ restService.use(bodyParser.json());
 
 restService.post('/inputmsg', function(req, res) {
 
-var audio = "audio says Nodejs code called!";
+var speech = "audio says Nodejs code called!";
 var text = "in text Nodejs code called!";
-res.json({
-                    speech: audio,
-                    displayText: text 
-                });
+
+    switch(req.body.originalRequest.source) {
+        case "google":{
+            res.json({
+                speech: speech,
+                displayText: text,
+                contextOut : contextOut,
+                data: {
+                    google: {
+                        'expectUserResponse': true,
+                        'isSsml': false,
+                        'noInputPrompts': [],
+                        'richResponse': {
+                            'items': [{
+                                'simpleResponse': {
+                                    'textToSpeech': speech,
+                                    'displayText': text
+                                }
+                            }],
+                            "suggestions": suggests
+                        }
+                    }
+                }
+            });
+            break;
+        }
+            
+        case "facebook":{
+            res.json({
+                speech: speech,
+                displayText: text
+            });
+            break;
+        }
+
+        default:{
+            res.json({
+                speech: speech,
+                displayText: text
+            });
+        }
+    }
 });
 
 
