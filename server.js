@@ -15,6 +15,8 @@ restService.post('/inputmsg', function(req, res) {
 
 var speech = "audio says Nodejs code called!";
 var text = "in text Nodejs code called!";
+var suggests = [];
+var contextOut = []; 
 
     switch(req.body.originalRequest.source) {
         case "google":{
